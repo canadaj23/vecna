@@ -1,4 +1,44 @@
 package com.chess.engine.pieces;
 
-public class Piece {
+import com.chess.engine.Alliance;
+import com.chess.engine.board.Board;
+import com.chess.engine.board.Move;
+
+import java.util.Collection;
+
+public abstract class Piece {
+    protected final Alliance pieceAlliance;
+    protected final int piecePosition;
+
+    //********************************************************
+    //**********************Constructor***********************
+    //********************************************************
+    /**
+     * Constructor for a Piece.
+     * @param pieceAlliance the piece's alliance
+     * @param piecePosition the piece's position on the chess board
+     */
+    protected Piece(final Alliance pieceAlliance, final int piecePosition) {
+        this.pieceAlliance = pieceAlliance;
+        this.piecePosition = piecePosition;
+    }
+
+    //********************************************************
+    //*********************Main Methods***********************
+    //********************************************************
+    public abstract Collection<Move> calculateLegalMoves(final Board board);
+
+    /**
+     * @return the piece's position
+     */
+    public int getPiecePosition() {
+        return this.piecePosition;
+    }
+
+    /**
+     * @return the piece's alliance (White or Black)
+     */
+    public Alliance getPieceAlliance() {
+        return this.pieceAlliance;
+    }
 }
