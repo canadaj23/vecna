@@ -41,7 +41,7 @@ public class Knight extends Piece {
             // Determine if the tile is on the chess board
             if (IsValidTilePosition(possibleTargetPosition)) {
                 // Determine if the piece is on an edge
-                if (Math.abs (((this.piecePosition % 8)) - ((possibleTargetPosition % 8))) > 2){
+                if (Math.abs(((this.piecePosition % 8)) - ((possibleTargetPosition % 8))) > 2){
                     continue;
                 }
 
@@ -67,3 +67,4 @@ public class Knight extends Piece {
         return ImmutableList.copyOf(legalMoves);
     }
 }
+
