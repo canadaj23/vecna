@@ -13,20 +13,20 @@ public abstract class Tile {
     protected final int tilePosition;
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllEmptyTiles();
 
-//********************************************************
-//**********************Constructor***********************
-//********************************************************
+    //********************************************************
+    //**********************Constructor***********************
+    //********************************************************
     /**
      * Constructor for a Tile object.
      * @param tilePosition the tile's position on the board
      */
-    public Tile (final int tilePosition) {
+    private Tile (final int tilePosition) {
         this.tilePosition = tilePosition;
     }
 
-//********************************************************
-//*********************Main Methods***********************
-//********************************************************
+    //********************************************************
+    //*********************Main Methods***********************
+    //********************************************************
     public abstract boolean isTileOccupied();
     public abstract Piece getPiece();
 
@@ -39,9 +39,9 @@ public abstract class Tile {
         return piece != null ? new OccupiedTile(tilePosition, piece) : EMPTY_TILES_CACHE.get(tilePosition);
     }
 
-//********************************************************
-//********************Helper Methods**********************
-//********************************************************
+    //********************************************************
+    //********************Helper Methods**********************
+    //********************************************************
     /**
      * @return an immutable Map cache of all 64 possible empty tiles
      */
@@ -55,28 +55,28 @@ public abstract class Tile {
         return ImmutableMap.copyOf(emptyTileMap);
     }
 
-//********************************************************
-//*******************EmptyTile Subclass*******************
-//********************************************************
+    //********************************************************
+    //*******************EmptyTile Subclass*******************
+    //********************************************************
     /**
      * This class represents an empty tile.
      */
     public static final class EmptyTile extends Tile {
 
-    //********************************************************
-    //**********************Constructor***********************
-    //********************************************************
+        //********************************************************
+        //**********************Constructor***********************
+        //********************************************************
         /**
          * Constructor for an EmptyTile object.
          * @param tilePosition the tile's position on the board
          */
-        public EmptyTile(final int tilePosition) {
+        private EmptyTile(final int tilePosition) {
             super(tilePosition);
         }
 
-    //********************************************************
-    //*********************Main Methods***********************
-    //********************************************************
+        //********************************************************
+        //*********************Main Methods***********************
+        //********************************************************
         /**
          * @return the tile is not occupied
          */
@@ -94,31 +94,31 @@ public abstract class Tile {
         }
     }
 
-//********************************************************
-//******************OccupiedTile Subclass*****************
-//********************************************************
+    //********************************************************
+    //******************OccupiedTile Subclass*****************
+    //********************************************************
     /**
      * This class represents an occupied tile.
      */
     public static final class OccupiedTile extends Tile {
         private final Piece pieceOnTile;
 
-    //********************************************************
-    //**********************Constructor***********************
-    //********************************************************
+        //********************************************************
+        //**********************Constructor***********************
+        //********************************************************
         /**
          * Constructor for an OccupiedTile object.
          *
          * @param tilePosition the tile's position on the board
          */
-        public OccupiedTile(final int tilePosition, final Piece pieceOnTile) {
+        private OccupiedTile(final int tilePosition, final Piece pieceOnTile) {
             super(tilePosition);
             this.pieceOnTile = pieceOnTile;
         }
 
-    //********************************************************
-    //*********************Main Methods***********************
-    //********************************************************
+        //********************************************************
+        //*********************Main Methods***********************
+        //********************************************************
         /**
          * @return the tile is occupied
          */
