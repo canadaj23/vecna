@@ -13,6 +13,7 @@ import java.util.List;
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
 import static com.chess.engine.pieces.utils.PieceMoveOffsets.ROOK_MOVE_OFFSETS;
 import static com.chess.engine.pieces.utils.PieceUtils.CalculateSlidingLegalMoves;
+import static com.chess.engine.pieces.utils.PieceUtils.MoveWithOccupiedTile;
 
 public class Rook extends Piece {
     //********************************************************
@@ -70,13 +71,12 @@ public class Rook extends Piece {
                     // The piece can move to the empty tile.
                     legalMoves.add(new MajorMove(board, this, possibleTargetPosition));
                 } else {
-                    final Piece targetPiece = possibleTargetTile.getPiece();
-                    final Alliance targetPieceAlliance = targetPiece.getPieceAlliance();
-                    // Determine if the target piece is the enemy's
-                    if (this.pieceAlliance != targetPieceAlliance) {
-                        // The piece can capture the enemy's piece.
-                        legalMoves.add(new AttackMove(board, this, possibleTargetPosition, targetPiece));
-                    }
+                    MoveWithOccupiedTile(this,
+                            board,
+                            possibleTargetPosition,
+                            this.getPieceAlliance(),
+                            possibleTargetTile,
+                            legalMoves);
                     // Cannot move since the tile is occupied, regardless of the target's alliance
                     break;
                 }

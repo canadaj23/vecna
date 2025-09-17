@@ -55,12 +55,12 @@ public class PieceUtils {
         return ImmutableList.copyOf(legalMoves);
     }
 
-    private static void MoveWithOccupiedTile(Piece movedPiece,
-                                      Board board,
-                                      int possibleTargetPosition,
-                                      Alliance pieceAlliance,
-                                      Tile possibleTargetTile,
-                                      List<Move> legalMoves) {
+    public static void MoveWithOccupiedTile(Piece movedPiece,
+                                            Board board,
+                                            int possibleTargetPosition,
+                                            Alliance pieceAlliance,
+                                            Tile possibleTargetTile,
+                                            List<Move> legalMoves) {
         final Piece targetPiece = possibleTargetTile.getPiece();
         final Alliance targetPieceAlliance = targetPiece.getPieceAlliance();
         // Determine if the target piece is the enemy's.
