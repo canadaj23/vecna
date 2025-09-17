@@ -36,7 +36,6 @@ public class Knight extends Piece {
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
         List<Move> legalMoves = new ArrayList<>();
-
         // Iterate through all the piece's offsets to find valid moves
         for (final int currentOffset : KNIGHT_MOVE_OFFSETS) {
             // Find the current target position
@@ -47,11 +46,9 @@ public class Knight extends Piece {
                 if (Math.abs(((this.piecePosition % 8)) - ((possibleTargetPosition % 8))) > 2){
                     continue;
                 }
-
                 final Tile possibleTargetTile = board.getTile(possibleTargetPosition);
                 // Determine if the tile is empty or occupied
                 if (!possibleTargetTile.isTileOccupied()) {
-                    // TODO: implement normal move
                     // The piece can move to the empty tile.
                     legalMoves.add(new MajorMove(board, this, possibleTargetPosition));
                 } else {
@@ -59,7 +56,6 @@ public class Knight extends Piece {
                     final Alliance targetPieceAlliance = targetPiece.getPieceAlliance();
                     // Determine if the target piece is the enemy's
                     if (this.pieceAlliance != targetPieceAlliance) {
-                        // TODO: implement capture move
                         // The piece can capture the enemy's piece.
                         legalMoves.add(new AttackMove(board, this, possibleTargetPosition, targetPiece));
                     }

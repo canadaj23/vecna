@@ -17,7 +17,7 @@ public abstract class Piece {
     //**********************Constructor***********************
     //********************************************************
     /**
-     * Constructor for a Piece.
+     * Constructor for a piece.
      * @param pieceAlliance the piece's alliance
      * @param piecePosition the piece's position on the chess board
      */
