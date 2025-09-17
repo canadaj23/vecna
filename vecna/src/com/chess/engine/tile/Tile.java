@@ -6,6 +6,9 @@ import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.chess.engine.board.BoardUtils.NUM_TILES;
+import static com.chess.engine.board.BoardUtils.START_TILE_INDEX;
+
 /**
  * This abstract class serves as the backbone for a tile on the chess board.
  */
@@ -48,7 +51,7 @@ public abstract class Tile {
     private static Map<Integer, EmptyTile> createAllEmptyTiles() {
         final Map<Integer, EmptyTile> emptyTileMap = new HashMap<>();
 
-        for (int i = 0; i < 64; i++) {
+        for (int i = START_TILE_INDEX; i < NUM_TILES; i++) {
             emptyTileMap.put(i, new EmptyTile(i));
         }
 
@@ -62,7 +65,6 @@ public abstract class Tile {
      * This class represents an empty tile.
      */
     public static final class EmptyTile extends Tile {
-
         //********************************************************
         //**********************Constructor***********************
         //********************************************************

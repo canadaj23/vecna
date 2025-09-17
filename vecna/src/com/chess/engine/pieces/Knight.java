@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static com.chess.engine.pieces.PieceMoveOffsets.BISHOP_MOVE_OFFSETS;
+import static com.chess.engine.board.Move.*;
+import static com.chess.engine.pieces.PieceMoveOffsets.KNIGHT_MOVE_OFFSETS;
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
 
+/**
+ * This class represents the Knight chess piece.
+ */
 public class Knight extends Piece {
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
-
     /**
      * Constructor for a Knight.
      * @param pieceAlliance the Knight's alliance
@@ -35,7 +38,7 @@ public class Knight extends Piece {
         List<Move> legalMoves = new ArrayList<>();
 
         // Iterate through all the piece's offsets to find valid moves
-        for (final int currentOffset : BISHOP_MOVE_OFFSETS) {
+        for (final int currentOffset : KNIGHT_MOVE_OFFSETS) {
             // Find the current target position
             final int possibleTargetPosition = this.piecePosition + currentOffset;
             // Determine if the tile is on the chess board
@@ -50,7 +53,7 @@ public class Knight extends Piece {
                 if (!possibleTargetTile.isTileOccupied()) {
                     // TODO: implement normal move
                     // The piece can move to the empty tile.
-                    legalMoves.add(new Move());
+                    legalMoves.add(new MajorMove(board, this, possibleTargetPosition));
                 } else {
                     final Piece targetPiece = possibleTargetTile.getPiece();
                     final Alliance targetPieceAlliance = targetPiece.getPieceAlliance();
@@ -58,7 +61,7 @@ public class Knight extends Piece {
                     if (this.pieceAlliance != targetPieceAlliance) {
                         // TODO: implement capture move
                         // The piece can capture the enemy's piece.
-                        legalMoves.add(new Move());
+                        legalMoves.add(new AttackMove(board, this, possibleTargetPosition, targetPiece));
                     }
                 }
             }
@@ -67,4 +70,3 @@ public class Knight extends Piece {
         return ImmutableList.copyOf(legalMoves);
     }
 }
-

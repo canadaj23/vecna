@@ -6,6 +6,9 @@ import com.chess.engine.board.Move;
 
 import java.util.Collection;
 
+/**
+ * This abstract class serves as the backbone for a piece on the chess board.
+ */
 public abstract class Piece {
     protected final Alliance pieceAlliance;
     protected final int piecePosition;
