@@ -5,7 +5,6 @@ public class BoardUtils {
     public static final int START_TILE_INDEX = 0;
     public static final int NUM_TILES = 64;
     public static final int NUM_TILES_PER_ROW = 8;
-
     //********************************************************
     //*********************Main Methods***********************
     //********************************************************

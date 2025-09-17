@@ -15,7 +15,6 @@ import static com.chess.engine.board.BoardUtils.START_TILE_INDEX;
 public abstract class Tile {
     protected final int tilePosition;
     private static final Map<Integer, EmptyTile> EMPTY_TILES_CACHE = createAllEmptyTiles();
-
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
@@ -26,7 +25,6 @@ public abstract class Tile {
     private Tile (final int tilePosition) {
         this.tilePosition = tilePosition;
     }
-
     //********************************************************
     //*********************Main Methods***********************
     //********************************************************
@@ -41,7 +39,6 @@ public abstract class Tile {
     public static Tile CreateTile(final int tilePosition, final Piece piece) {
         return piece != null ? new OccupiedTile(tilePosition, piece) : EMPTY_TILES_CACHE.get(tilePosition);
     }
-
     //********************************************************
     //********************Helper Methods**********************
     //********************************************************
@@ -57,7 +54,6 @@ public abstract class Tile {
 
         return ImmutableMap.copyOf(emptyTileMap);
     }
-
     //********************************************************
     //*******************EmptyTile Subclass*******************
     //********************************************************
@@ -75,7 +71,6 @@ public abstract class Tile {
         private EmptyTile(final int tilePosition) {
             super(tilePosition);
         }
-
         //********************************************************
         //*********************Main Methods***********************
         //********************************************************
@@ -95,7 +90,6 @@ public abstract class Tile {
             return null;
         }
     }
-
     //********************************************************
     //******************OccupiedTile Subclass*****************
     //********************************************************
@@ -104,7 +98,6 @@ public abstract class Tile {
      */
     public static final class OccupiedTile extends Tile {
         private final Piece pieceOnTile;
-
         //********************************************************
         //**********************Constructor***********************
         //********************************************************
@@ -117,7 +110,6 @@ public abstract class Tile {
             super(tilePosition);
             this.pieceOnTile = pieceOnTile;
         }
-
         //********************************************************
         //*********************Main Methods***********************
         //********************************************************

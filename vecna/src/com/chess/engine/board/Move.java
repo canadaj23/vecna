@@ -10,7 +10,6 @@ public abstract class Move {
     final Board board;
     final Piece movedPiece;
     final int targetPosition;
-
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
@@ -21,9 +20,7 @@ public abstract class Move {
         this.movedPiece = movedPiece;
         this.targetPosition = targetPosition;
     }
-
     // TODO: place each subclass in their own class file for better readability
-
     //********************************************************
     //******************MajorMove subclass********************
     //********************************************************
@@ -37,7 +34,6 @@ public abstract class Move {
             super(board, movedPiece, targetPosition);
         }
     }
-
     //********************************************************
     //*****************AttackMove subclass********************
     //********************************************************

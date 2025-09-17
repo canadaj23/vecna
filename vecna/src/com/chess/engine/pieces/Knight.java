@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.chess.engine.board.Move.*;
-import static com.chess.engine.pieces.PieceMoveOffsets.KNIGHT_MOVE_OFFSETS;
+import static com.chess.engine.pieces.utils.PieceMoveOffsets.KNIGHT_MOVE_OFFSETS;
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
 
 /**
@@ -26,13 +26,17 @@ public class Knight extends Piece {
      * @param pieceAlliance the Knight's alliance
      * @param piecePosition the Knight's position on the chess board
      */
-    protected Knight(final Alliance pieceAlliance, final int piecePosition) {
+    public Knight(final Alliance pieceAlliance, final int piecePosition) {
         super(pieceAlliance, piecePosition);
     }
-
     //********************************************************
     //*********************Main Methods***********************
     //********************************************************
+    /**
+     * Determines all the Knight's legal moves currently on the chess board.
+     * @param board what the Knight will be moving on
+     * @return a collection of all the Knight's legal moves on the current chess board
+     */
     @Override
     public Collection<Move> calculateLegalMoves(final Board board) {
         List<Move> legalMoves = new ArrayList<>();

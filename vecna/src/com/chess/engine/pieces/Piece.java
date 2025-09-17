@@ -25,10 +25,14 @@ public abstract class Piece {
         this.pieceAlliance = pieceAlliance;
         this.piecePosition = piecePosition;
     }
-
     //********************************************************
     //*********************Main Methods***********************
     //********************************************************
+    /**
+     * Determines all the piece's legal moves currently on the chess board.
+     * @param board what the piece will be moving on
+     * @return a collection of all the piece's legal moves on the current chess board
+     */
     public abstract Collection<Move> calculateLegalMoves(final Board board);
 
     /**
