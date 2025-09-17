@@ -2,7 +2,7 @@ package com.chess.engine.pieces;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
-import com.chess.engine.board.Move;
+import com.chess.engine.board.move.Move;
 
 import java.util.Collection;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 public abstract class Piece {
     protected final Alliance pieceAlliance;
     protected final int piecePosition;
-
+    protected final boolean firstMove;
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
@@ -24,6 +24,8 @@ public abstract class Piece {
     protected Piece(final Alliance pieceAlliance, final int piecePosition) {
         this.pieceAlliance = pieceAlliance;
         this.piecePosition = piecePosition;
+        // TODO: more work to do
+        this.firstMove = false;
     }
     //********************************************************
     //*********************Main Methods***********************
@@ -47,5 +49,12 @@ public abstract class Piece {
      */
     public Alliance getPieceAlliance() {
         return this.pieceAlliance;
+    }
+
+    /**
+     * @return whether it's the piece's first move
+     */
+    public boolean isFirstMove() {
+        return this.firstMove;
     }
 }

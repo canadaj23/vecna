@@ -2,13 +2,14 @@ package com.chess.engine.pieces.utils;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
-import com.chess.engine.board.Move;
+import com.chess.engine.board.move.AttackMove;
+import com.chess.engine.board.move.MajorMove;
+import com.chess.engine.board.move.Move;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.tile.Tile;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
@@ -33,7 +34,7 @@ public class PieceUtils {
                 // Determine if the tile is empty or occupied.
                 if (!possibleTargetTile.isTileOccupied()) {
                     // The piece can move to the empty tile.
-                    legalMoves.add(new Move.MajorMove(board, movedPiece, possibleTargetPosition));
+                    legalMoves.add(new MajorMove(board, movedPiece, possibleTargetPosition));
                 } else {
                     // There is an enemy or friendly piece in the way.
                     MoveWithOccupiedTile(
@@ -65,7 +66,7 @@ public class PieceUtils {
         // Determine if the target piece is the enemy's.
         if (pieceAlliance != targetPieceAlliance) {
             // The piece can capture the enemy's piece.
-            legalMoves.add(new Move.AttackMove(board, movedPiece, possibleTargetPosition, targetPiece));
+            legalMoves.add(new AttackMove(board, movedPiece, possibleTargetPosition, targetPiece));
         }
     }
 }

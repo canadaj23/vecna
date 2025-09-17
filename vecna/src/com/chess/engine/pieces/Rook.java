@@ -2,7 +2,7 @@ package com.chess.engine.pieces;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
-import com.chess.engine.board.Move;
+import com.chess.engine.board.move.*;
 import com.chess.engine.tile.Tile;
 import com.google.common.collect.ImmutableList;
 
@@ -23,7 +23,7 @@ public class Rook extends Piece {
      * @param pieceAlliance the Rook's alliance
      * @param piecePosition the Rook's position on the chess board
      */
-    protected Rook(Alliance pieceAlliance, int piecePosition) {
+    public Rook(final Alliance pieceAlliance, final int piecePosition) {
         super(pieceAlliance, piecePosition);
     }
     //********************************************************
@@ -68,14 +68,14 @@ public class Rook extends Piece {
                 // Determine if the tile is empty or occupied
                 if (!possibleTargetTile.isTileOccupied()) {
                     // The piece can move to the empty tile.
-                    legalMoves.add(new Move.MajorMove(board, this, possibleTargetPosition));
+                    legalMoves.add(new MajorMove(board, this, possibleTargetPosition));
                 } else {
                     final Piece targetPiece = possibleTargetTile.getPiece();
                     final Alliance targetPieceAlliance = targetPiece.getPieceAlliance();
                     // Determine if the target piece is the enemy's
                     if (this.pieceAlliance != targetPieceAlliance) {
                         // The piece can capture the enemy's piece.
-                        legalMoves.add(new Move.AttackMove(board, this, possibleTargetPosition, targetPiece));
+                        legalMoves.add(new AttackMove(board, this, possibleTargetPosition, targetPiece));
                     }
                     // Cannot move since the tile is occupied, regardless of the target's alliance
                     break;
