@@ -1,7 +1,14 @@
 package com.chess.engine.board;
 
 import com.chess.engine.Alliance;
+import com.chess.engine.board.move.Move;
+import com.chess.engine.board.tile.Tile;
 import com.chess.engine.pieces.*;
+import com.google.common.collect.ImmutableList;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static com.chess.engine.Alliance.BLACK;
 import static com.chess.engine.Alliance.WHITE;
@@ -21,6 +28,40 @@ public class BoardUtils {
      */
     public static boolean IsValidTilePosition(final int position) {
         return position >= START_TILE_INDEX && position < NUM_TILES;
+    }
+    //********************************************************
+    //**********************Calculating***********************
+    //********************************************************
+    /**
+     * @param gameBoard what the pieces are on
+     * @param alliance  White/Black
+     * @return a list of a player's currently active pieces
+     */
+    static Collection<Piece> CalculateActivePieces(final List<Tile> gameBoard, final Alliance alliance) {
+        final List<Piece> activePieces = new ArrayList<>();
+        for (final Tile tile : gameBoard) {
+            if (tile.isTileOccupied()) {
+                final Piece piece = tile.getPiece();
+                if (piece.getPieceAlliance() == alliance) {
+                    activePieces.add(piece);
+                }
+            }
+        }
+
+        return ImmutableList.copyOf(activePieces);
+    }
+
+    /**
+     * @param pieces the player's currently active pieces
+     * @return a list of a player's legal moves
+     */
+    static Collection<Move> CalculateLegalMoves(final Collection<Piece> pieces, final Board board) {
+        final List<Move> legalMoves = new ArrayList<>();
+        for (final Piece piece : pieces) {
+            legalMoves.addAll(piece.calculateLegalMoves(board));
+        }
+
+        return ImmutableList.copyOf(legalMoves);
     }
     //********************************************************
     //******************Initial Chess Board*******************

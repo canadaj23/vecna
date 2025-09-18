@@ -15,4 +15,14 @@ public final class MajorMove extends Move {
                      final int targetPosition) {
         super(board, movedPiece, targetPosition);
     }
+    //********************************************************
+    //**********************Main Methods**********************
+    //********************************************************
+    /**
+     * @return a new board with the major move made
+     */
+    @Override
+    public Board execute() {
+        return null;
+    }
 }

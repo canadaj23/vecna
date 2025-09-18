@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
+import static com.chess.engine.pieces.Piece.PieceType.PAWN;
 import static com.chess.engine.pieces.utils.PieceMoveOffsets.PAWN_MOVE_OFFSETS;
 
 public class Pawn extends Piece {
@@ -23,7 +24,7 @@ public class Pawn extends Piece {
      * @param piecePosition the Pawn's position on the chess board
      */
     public Pawn(final Alliance pieceAlliance, final int piecePosition) {
-        super(pieceAlliance, piecePosition);
+        super(PAWN, pieceAlliance, piecePosition);
     }
     //********************************************************
     //*********************Main Methods***********************
@@ -106,6 +107,6 @@ public class Pawn extends Piece {
      */
     @Override
     public String toString() {
-        return PieceType.PAWN.toString();
+        return PAWN.toString();
     }
 }

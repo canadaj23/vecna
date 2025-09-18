@@ -21,4 +21,18 @@ public abstract class Move {
         this.movedPiece = movedPiece;
         this.targetPosition = targetPosition;
     }
+    //********************************************************
+    //**********************Main Methods**********************
+    //********************************************************
+    /**
+     * @return a new board with the move made
+     */
+    public abstract Board execute();
+
+    /**
+     * @return where the piece wants to move to
+     */
+    public int getTargetPosition() {
+        return this.targetPosition;
+    }
 }

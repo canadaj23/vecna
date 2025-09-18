@@ -3,34 +3,54 @@ package com.chess.engine.board;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.move.Move;
 import com.chess.engine.pieces.*;
-import com.chess.engine.tile.Tile;
+import com.chess.engine.board.tile.Tile;
+import com.chess.engine.players.BlackPlayer;
+import com.chess.engine.players.Player;
+import com.chess.engine.players.WhitePlayer;
 import com.google.common.collect.ImmutableList;
 
 import java.util.*;
 
 import static com.chess.engine.Alliance.*;
 import static com.chess.engine.board.BoardUtils.*;
-import static com.chess.engine.tile.Tile.*;
+import static com.chess.engine.board.tile.Tile.*;
 
+/**
+ * This class represents the chess board in its entirety.
+ * The board is made up of tiles, both occupied and empty.
+ * The board will be "updated" by creating another board based on a move performed by a player.
+ */
 public class Board {
     private final List<Tile> gameBoard;
     private final Collection<Piece> whitePieces;
     private final Collection<Piece> blackPieces;
+    private final WhitePlayer whitePlayer;
+    private final BlackPlayer blackPlayer;
+    private final Player currentPlayer;
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
+    /**
+     * Constructor for a chess board.
+     * @param builder what will build each subsequent board
+     */
     private Board(final Builder builder) {
         // Populate the chess board with all necessary occupied and empty tiles
         this.gameBoard = createGameBoard(builder);
         // Determine White and Black's active pieces
-        whitePieces = CalculateActivePieces(this.gameBoard, WHITE);
-        blackPieces = CalculateActivePieces(this.gameBoard, BLACK);
+        this.whitePieces = CalculateActivePieces(this.gameBoard, WHITE);
+        this.blackPieces = CalculateActivePieces(this.gameBoard, BLACK);
         // Calculate White and Black's current legal moves
-        final Collection<Move> whiteStandardLegalMoves = calculateLegalMoves(this.whitePieces);
-        final Collection<Move> blackStandardLegalMoves = calculateLegalMoves(this.blackPieces);
+        final Collection<Move> whiteStandardLegalMoves = CalculateLegalMoves(this.whitePieces, this);
+        final Collection<Move> blackStandardLegalMoves = CalculateLegalMoves(this.blackPieces, this);
+        // Set up the players
+        this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
+        // Designate the current player
+        this.currentPlayer = null;
     }
     //********************************************************
-    //**********************Main Methods**********************
+    //*********************Board Creation*********************
     //********************************************************
     /**
      * @param builder what will be referenced for details about the chess board
@@ -46,45 +66,6 @@ public class Board {
     }
 
     /**
-     * @param gameBoard what the pieces are on
-     * @param alliance  White/Black
-     * @return a list of a player's currently active pieces
-     */
-    private static Collection<Piece> CalculateActivePieces(final List<Tile> gameBoard, final Alliance alliance) {
-        final List<Piece> activePieces = new ArrayList<>();
-        for (final Tile tile : gameBoard) {
-            if (tile.isTileOccupied()) {
-                final Piece piece = tile.getPiece();
-                if (piece.getPieceAlliance() == alliance) {
-                    activePieces.add(piece);
-                }
-            }
-        }
-
-        return ImmutableList.copyOf(activePieces);
-    }
-
-    /**
-     * @param pieces the player's currently active pieces
-     * @return a list of a player's legal moves
-     */
-    private Collection<Move> calculateLegalMoves(final Collection<Piece> pieces) {
-        final List<Move> legalMoves = new ArrayList<>();
-        for (final Piece piece : pieces) {
-            legalMoves.addAll(piece.calculateLegalMoves(this));
-        }
-
-        return ImmutableList.copyOf(legalMoves);
-    }
-
-    /**
-     * @param tilePosition where the tile is on the chess board
-     * @return the tile with a given position
-     */
-    public Tile getTile(final int tilePosition) {
-        return gameBoard.get(tilePosition);
-    }
-    /**
      * @return the initial chess board
      */
     public static Board CreateInitialBoard() {
@@ -96,7 +77,48 @@ public class Board {
 
         return builder.build();
     }
+    //********************************************************
+    //************************Getters*************************
+    //********************************************************
+    /**
+     * @param tilePosition where the tile is on the chess board
+     * @return the tile with a given position
+     */
+    public Tile getTile(final int tilePosition) {
+        return this.gameBoard.get(tilePosition);
+    }
 
+    /**
+     * @param alliance White/Black
+     * @return an alliance's pieces
+     */
+    public Collection<Piece> getPieces(final Alliance alliance) {
+        return alliance.isWhite() ? this.whitePieces : this.blackPieces;
+    }
+
+    /**
+     * @return the white player
+     */
+    public Player getWhitePlayer() {
+        return this.whitePlayer;
+    }
+
+    /**
+     * @return the black player
+     */
+    public Player getBlackPlayer() {
+        return this.blackPlayer;
+    }
+
+    /**
+     * @return the current move maker
+     */
+    public Player getCurrentPlayer() {
+        return this.currentPlayer;
+    }
+    //********************************************************
+    //********************Special Overrides*******************
+    //********************************************************
     @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder();
@@ -109,7 +131,6 @@ public class Board {
         }
         return stringBuilder.toString();
     }
-
     //********************************************************
     //********************Builder Pattern*********************
     //********************************************************

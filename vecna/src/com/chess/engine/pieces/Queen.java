@@ -3,7 +3,7 @@ package com.chess.engine.pieces;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.move.*;
-import com.chess.engine.tile.Tile;
+import com.chess.engine.board.tile.Tile;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
+import static com.chess.engine.pieces.Piece.PieceType.QUEEN;
 import static com.chess.engine.pieces.utils.PieceMoveOffsets.QUEEN_KING_MOVE_OFFSETS;
 import static com.chess.engine.pieces.utils.PieceUtils.CalculateSlidingLegalMoves;
 import static com.chess.engine.pieces.utils.PieceUtils.MoveWithOccupiedTile;
@@ -26,7 +27,7 @@ public class Queen extends Piece {
      * @param piecePosition the Queen's position on the chess board
      */
     public Queen(final Alliance pieceAlliance, final int piecePosition) {
-        super(pieceAlliance, piecePosition);
+        super(QUEEN, pieceAlliance, piecePosition);
     }
     //********************************************************
     //*********************Main Methods***********************
@@ -94,6 +95,6 @@ public class Queen extends Piece {
      */
     @Override
     public String toString() {
-        return PieceType.QUEEN.toString();
+        return QUEEN.toString();
     }
 }

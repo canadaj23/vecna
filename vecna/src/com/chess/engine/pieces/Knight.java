@@ -3,13 +3,14 @@ package com.chess.engine.pieces;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.move.*;
-import com.chess.engine.tile.Tile;
+import com.chess.engine.board.tile.Tile;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static com.chess.engine.pieces.Piece.PieceType.KNIGHT;
 import static com.chess.engine.pieces.utils.PieceMoveOffsets.KNIGHT_MOVE_OFFSETS;
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
 
@@ -26,7 +27,7 @@ public class Knight extends Piece {
      * @param piecePosition the Knight's position on the chess board
      */
     public Knight(final Alliance pieceAlliance, final int piecePosition) {
-        super(pieceAlliance, piecePosition);
+        super(KNIGHT, pieceAlliance, piecePosition);
     }
     //********************************************************
     //*********************Main Methods***********************
@@ -74,6 +75,6 @@ public class Knight extends Piece {
      */
     @Override
     public String toString() {
-        return PieceType.KNIGHT.toString();
+        return KNIGHT.toString();
     }
 }
