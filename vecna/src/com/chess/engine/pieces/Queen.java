@@ -88,4 +88,12 @@ public class Queen extends Piece {
 
         return ImmutableList.copyOf(legalMoves);
     }
+
+    /**
+     * @return a String representation of a Queen
+     */
+    @Override
+    public String toString() {
+        return PieceType.QUEEN.toString();
+    }
 }

@@ -87,4 +87,12 @@ public class Rook extends Piece {
 
         return ImmutableList.copyOf(legalMoves);
     }
+
+    /**
+     * @return a String representation of a Rook
+     */
+    @Override
+    public String toString() {
+        return PieceType.ROOK.toString();
+    }
 }

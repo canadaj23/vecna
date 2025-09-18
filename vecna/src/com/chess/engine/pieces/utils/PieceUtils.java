@@ -15,6 +15,17 @@ import java.util.List;
 import static com.chess.engine.board.BoardUtils.IsValidTilePosition;
 
 public class PieceUtils {
+    /**
+     * Determines the sliding piece's legal moves.
+     * The sliding pieces are the Rook, Bishop, and Queen.
+     * In this sense, a sliding piece can move along a vector until it approaches an obstacle.
+     * @param board         where the game takes place
+     * @param movedPiece    the sliding piece
+     * @param piecePosition where the piece is on the board
+     * @param pieceOffsets  the sliding piece's move offsets
+     * @param pieceAlliance White/Black
+     * @return a list of the sliding piece's legal moves
+     */
     public static List<Move> CalculateSlidingLegalMoves(final Board board,
                                                        final Piece movedPiece,
                                                        final int piecePosition,
@@ -55,6 +66,15 @@ public class PieceUtils {
         return ImmutableList.copyOf(legalMoves);
     }
 
+    /**
+     * Decides whether the move with the occupied tile is an attack.
+     * @param movedPiece             the piece that is trying to move
+     * @param board                  where the game takes place
+     * @param possibleTargetPosition where the piece wants to move to on the chess board
+     * @param pieceAlliance          White/Black
+     * @param possibleTargetTile     which tile the piece wants to move to on the chess board
+     * @param legalMoves             the list of all the piece's legal moves
+     */
     public static void MoveWithOccupiedTile(Piece movedPiece,
                                             Board board,
                                             int possibleTargetPosition,

@@ -68,4 +68,12 @@ public class Knight extends Piece {
 
         return ImmutableList.copyOf(legalMoves);
     }
+
+    /**
+     * @return a String representation of a Knight
+     */
+    @Override
+    public String toString() {
+        return PieceType.KNIGHT.toString();
+    }
 }

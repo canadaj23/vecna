@@ -100,4 +100,12 @@ public class Pawn extends Piece {
     private boolean blackPawnOnLastFile() {
         return this.getPieceAlliance().isBlack() && this.piecePosition % 8 == 7;
     }
+
+    /**
+     * @return a String representation of a Pawn
+     */
+    @Override
+    public String toString() {
+        return PieceType.PAWN.toString();
+    }
 }

@@ -1,5 +1,6 @@
 package com.chess.engine.tile;
 
+import com.chess.engine.Alliance;
 import com.chess.engine.pieces.Piece;
 import com.google.common.collect.ImmutableMap;
 
@@ -89,6 +90,14 @@ public abstract class Tile {
         public Piece getPiece() {
             return null;
         }
+
+        /**
+         * @return a String representation of an empty tile
+         */
+        @Override
+        public String toString() {
+            return "-";
+        }
     }
     //********************************************************
     //******************OccupiedTile Subclass*****************
@@ -127,6 +136,16 @@ public abstract class Tile {
         @Override
         public Piece getPiece() {
             return this.pieceOnTile;
+        }
+
+        /**
+         * @return a String representation of an occupied tile
+         */
+        @Override
+        public String toString() {
+            final Piece pieceOnTile = this.getPiece();
+            final Alliance pieceAlliance = pieceOnTile.getPieceAlliance();
+            return pieceAlliance.isBlack() ? pieceOnTile.toString().toLowerCase() : pieceOnTile.toString();
         }
     }
 }
