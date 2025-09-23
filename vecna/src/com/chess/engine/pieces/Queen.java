@@ -52,6 +52,15 @@ public class Queen extends Piece {
     }
 
     /**
+     * @param move what the Queen is trying to do
+     * @return the same Queen (but new object) but with an updated position
+     */
+    @Override
+    public Queen movePiece(final Move move) {
+        return new Queen(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
+    }
+
+    /**
      * Determines all the Queen's legal moves currently on the chess board.
      * @param board what the Queen will be moving on
      * @return a collection of all the Queen's legal moves on the current chess board

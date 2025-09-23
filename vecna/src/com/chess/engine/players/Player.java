@@ -2,6 +2,7 @@ package com.chess.engine.players;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
+import com.chess.engine.board.move.MoveStatus;
 import com.chess.engine.board.move.MoveTransition;
 import com.chess.engine.board.move.Move;
 import com.chess.engine.pieces.King;
@@ -11,8 +12,6 @@ import com.google.common.collect.ImmutableList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static com.chess.engine.board.move.MoveStatus.*;
 
 public abstract class Player {
     protected final Board board;
@@ -119,7 +118,7 @@ public abstract class Player {
     public MoveTransition makeMove(final Move move) {
         // Illegal move
         if (!isMoveLegal(move)) {
-            return new MoveTransition(this.board, move, ILLEGAL_MOVE);
+            return new MoveTransition(this.board, move, MoveStatus.ILLEGAL_MOVE);
         }
         // Legal move
         final Board transitionBoard = move.execute();
@@ -129,10 +128,10 @@ public abstract class Player {
                                                                     currentPlayer.getLegalMoves());
         // In check
         if (!attacksOnKing.isEmpty()) {
-            return new MoveTransition(this.board, move, IN_CHECK);
+            return new MoveTransition(this.board, move, MoveStatus.IN_CHECK);
         }
 
-        return new MoveTransition(transitionBoard, move, DONE);
+        return new MoveTransition(transitionBoard, move, MoveStatus.DONE);
     }
 
     /**

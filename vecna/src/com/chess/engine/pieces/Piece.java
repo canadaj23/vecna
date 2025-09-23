@@ -14,6 +14,7 @@ public abstract class Piece {
     protected final Alliance pieceAlliance;
     protected final int piecePosition;
     protected final boolean firstMove;
+    private final int cachedHashCode;
     //********************************************************
     //**********************Constructor***********************
     //********************************************************
@@ -28,6 +29,7 @@ public abstract class Piece {
         this.piecePosition = piecePosition;
         // TODO: more work to do
         this.firstMove = false;
+        this.cachedHashCode = computeHashCode();
     }
     //********************************************************
     //*********************Main Methods***********************
@@ -38,6 +40,12 @@ public abstract class Piece {
      * @return a collection of all the piece's legal moves on the current chess board
      */
     public abstract Collection<Move> calculateLegalMoves(final Board board);
+
+    /**
+     * @param move what the piece is trying to do
+     * @return the same piece (but new object) but with an updated position
+     */
+    public abstract Piece movePiece(final Move move);
 
     /**
      * @return the piece's position
@@ -66,6 +74,46 @@ public abstract class Piece {
     public boolean isFirstMove() {
         return this.firstMove;
     }
+
+    private int computeHashCode() {
+        int result = pieceType.hashCode();
+        result = 31 * result + pieceAlliance.hashCode();
+        result = 31 * result + piecePosition;
+        result = 31 * result + (isFirstMove() ? 1 : 0);
+
+        return result;
+    }
+    //********************************************************
+    //******************Special Overrides*********************
+    //********************************************************
+
+    /**
+     * Checks for more than just reference equality.
+     * @param other the other object to compare
+     * @return whether the object is equal to another
+     */
+    @Override
+    public boolean equals(final Object other) {
+        // Reference equality
+        if (this == other) {
+            return true;
+        }
+        // Check if other is a piece
+        if (!(other instanceof Piece otherPiece)) {
+            return false;
+        }
+
+        return piecePosition == otherPiece.getPiecePosition() &&
+               pieceType == otherPiece.getPieceType() &&
+               pieceAlliance == otherPiece.getPieceAlliance() &&
+               firstMove == otherPiece.isFirstMove();
+    }
+
+    @Override
+    public int hashCode() {
+        return this.cachedHashCode;
+    }
+
     //********************************************************
     //***********************PieceType************************
     //********************************************************

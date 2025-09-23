@@ -78,6 +78,15 @@ public class Pawn extends Piece {
     }
 
     /**
+     * @param move what the Pawn is trying to do
+     * @return the same Pawn (but new object) but with an updated position
+     */
+    @Override
+    public Pawn movePiece(final Move move) {
+        return new Pawn(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
+    }
+
+    /**
      * @param currentOffset the offset of the Pawn's forward attacking move
      * @return whether the attack is on a forward diagonal
      */

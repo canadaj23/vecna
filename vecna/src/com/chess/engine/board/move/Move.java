@@ -35,4 +35,11 @@ public abstract class Move {
     public int getTargetPosition() {
         return this.targetPosition;
     }
+
+    /**
+     * @return the piece to be moved
+     */
+    public Piece getMovedPiece() {
+        return this.movedPiece;
+    }
 }

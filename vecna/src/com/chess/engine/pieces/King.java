@@ -26,7 +26,7 @@ public class King extends Piece {
      * @param pieceAlliance the piece's alliance
      * @param piecePosition the piece's position on the chess board
      */
-    public King(Alliance pieceAlliance, int piecePosition) {
+    public King(final Alliance pieceAlliance, final int piecePosition) {
         super(KING, pieceAlliance, piecePosition);
     }
     //********************************************************
@@ -68,6 +68,15 @@ public class King extends Piece {
         }
 
         return ImmutableList.copyOf(legalMoves);
+    }
+
+    /**
+     * @param move what the King is trying to do
+     * @return the same King (but new object) but with an updated position
+     */
+    @Override
+    public King movePiece(final Move move) {
+        return new King(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
     }
 
     /**

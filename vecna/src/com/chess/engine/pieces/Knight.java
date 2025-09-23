@@ -71,6 +71,15 @@ public class Knight extends Piece {
     }
 
     /**
+     * @param move what the Knight is trying to do
+     * @return the same Knight (but new object) but with an updated position
+     */
+    @Override
+    public Knight movePiece(final Move move) {
+        return new Knight(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
+    }
+
+    /**
      * @return a String representation of a Knight
      */
     @Override

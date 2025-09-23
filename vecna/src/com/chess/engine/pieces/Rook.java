@@ -51,6 +51,15 @@ public class Rook extends Piece {
     }
 
     /**
+     * @param move what the Rook is trying to do
+     * @return the same Rook (but new object) but with an updated position
+     */
+    @Override
+    public Rook movePiece(final Move move) {
+        return new Rook(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
+    }
+
+    /**
      * Determines all the Rook's legal moves currently on the chess board.
      * @param board what the Rook will be moving on
      * @return a collection of all the Rook's legal moves on the current chess board

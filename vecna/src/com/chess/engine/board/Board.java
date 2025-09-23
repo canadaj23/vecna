@@ -12,8 +12,6 @@ import com.google.common.collect.ImmutableList;
 import java.util.*;
 
 import static com.chess.engine.Alliance.*;
-import static com.chess.engine.board.BoardUtils.*;
-import static com.chess.engine.board.tile.Tile.*;
 
 /**
  * This class represents the chess board in its entirety.
@@ -38,16 +36,16 @@ public class Board {
         // Populate the chess board with all necessary occupied and empty tiles
         this.gameBoard = createGameBoard(builder);
         // Determine White and Black's active pieces
-        this.whitePieces = CalculateActivePieces(this.gameBoard, WHITE);
-        this.blackPieces = CalculateActivePieces(this.gameBoard, BLACK);
+        this.whitePieces = BoardUtils.CalculateActivePieces(this.gameBoard, WHITE);
+        this.blackPieces = BoardUtils.CalculateActivePieces(this.gameBoard, BLACK);
         // Calculate White and Black's current legal moves
-        final Collection<Move> whiteStandardLegalMoves = CalculateLegalMoves(this.whitePieces, this);
-        final Collection<Move> blackStandardLegalMoves = CalculateLegalMoves(this.blackPieces, this);
+        final Collection<Move> whiteStandardLegalMoves = BoardUtils.CalculateLegalMoves(this.whitePieces, this);
+        final Collection<Move> blackStandardLegalMoves = BoardUtils.CalculateLegalMoves(this.blackPieces, this);
         // Set up the players
         this.whitePlayer = new WhitePlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardLegalMoves, blackStandardLegalMoves);
         // Designate the current player
-        this.currentPlayer = null;
+        this.currentPlayer = builder.nextMoveMaker.choosePlayer(this.whitePlayer, this.blackPlayer);
     }
     //********************************************************
     //*********************Board Creation*********************
@@ -57,9 +55,9 @@ public class Board {
      * @return a list of all the tiles (both occupied and empty) on the chess board
      */
     private static List<Tile> createGameBoard(final Builder builder) {
-        final Tile[] tiles = new Tile[NUM_TILES];
-        for (int i = 0; i < NUM_TILES; i++) {
-            tiles[i] = CreateTile(i, builder.boardConfig.get(i));
+        final Tile[] tiles = new Tile[BoardUtils.NUM_TILES];
+        for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
+            tiles[i] = Tile.CreateTile(i, builder.boardConfig.get(i));
         }
 
         return ImmutableList.copyOf(tiles);
@@ -70,7 +68,7 @@ public class Board {
      */
     public static Board CreateInitialBoard() {
         final Builder builder = new Builder();
-        SetInitialPieces(builder);
+        BoardUtils.SetInitialPieces(builder);
 
         // The initial move maker is White
         builder.setMoveMaker(WHITE);
@@ -122,10 +120,10 @@ public class Board {
     @Override
     public String toString() {
         final StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < NUM_TILES; i++) {
+        for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             final String tileText = this.gameBoard.get(i).toString();
             stringBuilder.append(String.format("%3s", tileText));
-            if ((i + 1) % NUM_TILES_PER_ROW == 0) {
+            if ((i + 1) % BoardUtils.NUM_TILES_PER_ROW == 0) {
                 stringBuilder.append("\n");
             }
         }

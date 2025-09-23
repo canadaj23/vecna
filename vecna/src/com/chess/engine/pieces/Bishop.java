@@ -51,6 +51,15 @@ public class Bishop extends Piece {
     }
 
     /**
+     * @param move what the Bishop is trying to do
+     * @return the same Bishop (but new object) but with an updated position
+     */
+    @Override
+    public Bishop movePiece(final Move move) {
+        return new Bishop(move.getMovedPiece().getPieceAlliance(), move.getTargetPosition());
+    }
+
+    /**
      * Determines all the Bishop's legal moves currently on the chess board.
      * @param board what the Bishop will be moving on
      * @return a collection of all the Bishop's legal moves on the current chess board
