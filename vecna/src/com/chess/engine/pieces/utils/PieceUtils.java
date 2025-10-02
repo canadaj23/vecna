@@ -2,8 +2,8 @@ package com.chess.engine.pieces.utils;
 
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
-import com.chess.engine.board.move.AttackMove;
-import com.chess.engine.board.move.MajorMove;
+import com.chess.engine.board.move.misc.AttackMove;
+import com.chess.engine.board.move.misc.MajorMove;
 import com.chess.engine.board.move.Move;
 import com.chess.engine.pieces.Piece;
 import com.chess.engine.board.tile.Tile;

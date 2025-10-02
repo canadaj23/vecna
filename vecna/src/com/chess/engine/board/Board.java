@@ -8,6 +8,7 @@ import com.chess.engine.players.BlackPlayer;
 import com.chess.engine.players.Player;
 import com.chess.engine.players.WhitePlayer;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.*;
 
@@ -114,6 +115,14 @@ public class Board {
     public Player getCurrentPlayer() {
         return this.currentPlayer;
     }
+
+    /**
+     * @return all the legal moves (including both players)
+     */
+    public Iterable<Move> getAllLegalMoves() {
+        return Iterables.unmodifiableIterable(Iterables.concat(this.whitePlayer.getLegalMoves(),
+                                                               this.blackPlayer.getLegalMoves()));
+    }
     //********************************************************
     //********************Special Overrides*******************
     //********************************************************
@@ -138,9 +147,13 @@ public class Board {
     public static class Builder {
         Map<Integer, Piece> boardConfig;
         Alliance nextMoveMaker;
+        Pawn enPassantPawn;
         //********************************************************
         //**********************Constructor***********************
         //********************************************************
+        /**
+         * Constructor for a Builder object.
+         */
         public Builder() {
             this.boardConfig = new HashMap<>();
         }
@@ -171,6 +184,13 @@ public class Board {
          */
         public Board build() {
             return new Board(this);
+        }
+
+        /**
+         * Designates the pawn as en passant if it performs a two-tile advancement on its first move
+         */
+        public void setEnPassantPawn(final Pawn enPassantPawn) {
+            this.enPassantPawn = enPassantPawn;
         }
     }
 }

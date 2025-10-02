@@ -75,6 +75,9 @@ public abstract class Piece {
         return this.firstMove;
     }
 
+    /**
+     * @return the newly created piece hashcode
+     */
     private int computeHashCode() {
         int result = pieceType.hashCode();
         result = 31 * result + pieceAlliance.hashCode();
@@ -86,7 +89,6 @@ public abstract class Piece {
     //********************************************************
     //******************Special Overrides*********************
     //********************************************************
-
     /**
      * Checks for more than just reference equality.
      * @param other the other object to compare
@@ -103,12 +105,15 @@ public abstract class Piece {
             return false;
         }
 
-        return piecePosition == otherPiece.getPiecePosition() &&
-               pieceType == otherPiece.getPieceType() &&
-               pieceAlliance == otherPiece.getPieceAlliance() &&
-               firstMove == otherPiece.isFirstMove();
+        return this.piecePosition == otherPiece.getPiecePosition() &&
+               this.pieceType == otherPiece.getPieceType() &&
+               this.pieceAlliance == otherPiece.getPieceAlliance() &&
+               this.firstMove == otherPiece.isFirstMove();
     }
 
+    /**
+     * @return the piece hashcode that was previously calculated
+     */
     @Override
     public int hashCode() {
         return this.cachedHashCode;
@@ -118,51 +123,19 @@ public abstract class Piece {
     //***********************PieceType************************
     //********************************************************
     public enum PieceType {
-        PAWN("P") {
-            /**
-             * @return whether the piece is a King
-             */
-            @Override
-            public boolean isKing() {
-                return false;
-            }
-        },
+        PAWN("P") {},
         ROOK("R") {
             /**
-             * @return whether the piece is a King
+             * @return whether the piece is a Rook
              */
             @Override
-            public boolean isKing() {
-                return false;
+            public boolean isRook() {
+                return true;
             }
         },
-        KNIGHT("N") {
-            /**
-             * @return whether the piece is a King
-             */
-            @Override
-            public boolean isKing() {
-                return false;
-            }
-        },
-        BISHOP("B") {
-            /**
-             * @return whether the piece is a King
-             */
-            @Override
-            public boolean isKing() {
-                return false;
-            }
-        },
-        QUEEN("Q") {
-            /**
-             * @return whether the piece is a King
-             */
-            @Override
-            public boolean isKing() {
-                return false;
-            }
-        },
+        KNIGHT("N") {},
+        BISHOP("B") {},
+        QUEEN("Q") {},
         KING("K") {
             /**
              * @return whether the piece is a King
@@ -190,7 +163,16 @@ public abstract class Piece {
         /**
          * @return whether the piece is a King
          */
-        public abstract boolean isKing();
+        public boolean isKing() {
+            return false;
+        }
+
+        /**
+         * @return whether the piece is a Rook
+         */
+        public boolean isRook() {
+            return false;
+        }
 
         /**
          * @return a String representation of a given piece

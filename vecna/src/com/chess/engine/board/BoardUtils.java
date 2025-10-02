@@ -14,6 +14,9 @@ import static com.chess.engine.Alliance.BLACK;
 import static com.chess.engine.Alliance.WHITE;
 import static com.chess.engine.board.Board.*;
 
+/**
+ * This class performs various tasks for the Board class.
+ */
 public class BoardUtils {
     // Tile-related
     public static final int START_TILE_INDEX = 0;
@@ -67,8 +70,8 @@ public class BoardUtils {
     //******************Initial Chess Board*******************
     //********************************************************
     /**
-     * Sets the initial board with White and Black's starting pieces.
-     * @param builder what contains the chess board's attributes
+     * Sets the initial board with White's and Black's starting pieces.
+     * @param builder what will create the chess board with pieces on it
      */
     static void SetInitialPieces(final Builder builder) {
         // Populate the board with Black's initial pieces
@@ -77,6 +80,10 @@ public class BoardUtils {
         setWhiteInitialPieces(builder);
     }
 
+    /**
+     * Sets all of Black's initial pieces on the board
+     * @param builder what places the pieces on the board
+     */
     private static void setBlackInitialPieces(final Builder builder) {
         int[] mainBlackPieces = { 0, 1, 2, 3, 4, 5, 6, 7 };
         SetInitialMainPieces(builder, BLACK, mainBlackPieces);
@@ -85,6 +92,10 @@ public class BoardUtils {
         SetInitialPawns(builder, BLACK, blackPawns);
     }
 
+    /**
+     * Sets all of White's initial pieces on the board
+     * @param builder what places the pieces on the board
+     */
     private static void setWhiteInitialPieces(final Builder builder) {
         int[] whitePawns = { 48, 49, 50, 51, 52, 53, 54, 55 };
         SetInitialPawns(builder, WHITE, whitePawns);
@@ -93,6 +104,12 @@ public class BoardUtils {
         SetInitialMainPieces(builder, WHITE, mainWhitePieces);
     }
 
+    /**
+     * Sets all the pieces to their initial positions
+     * @param builder    what places the pieces on the board
+     * @param alliance   White/Black
+     * @param mainPieces all pieces excluding pawns
+     */
     private static void SetInitialMainPieces(final Builder builder, final Alliance alliance, final int[] mainPieces) {
         builder.setPiece(new Rook(alliance, mainPieces[0]));
         builder.setPiece(new Knight(alliance, mainPieces[1]));
@@ -104,6 +121,12 @@ public class BoardUtils {
         builder.setPiece(new Rook(alliance, mainPieces[7]));
     }
 
+    /**
+     * Sets all the pawns to their initial positions
+     * @param builder  what places the pieces on the board
+     * @param alliance White/Black
+     * @param pawns    all the pawns to be placed
+     */
     private static void SetInitialPawns(final Builder builder, final Alliance alliance, final int[] pawns) {
         for (int i = pawns[0]; i < pawns[7] + 1; i++) {
             builder.setPiece(new Pawn(alliance, i));

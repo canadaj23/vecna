@@ -8,6 +8,7 @@ import com.chess.engine.pieces.Piece;
 import java.util.Collection;
 
 import static com.chess.engine.Alliance.*;
+import static com.chess.engine.players.PlayerUtils.*;
 
 public class WhitePlayer extends Player {
     //********************************************************
@@ -50,5 +51,22 @@ public class WhitePlayer extends Player {
     @Override
     public Player getOpponent() {
         return this.board.getBlackPlayer();
+    }
+
+    /**
+     * @param opponentLegalMoves the opponent's legal moves
+     * @return a list of legal castles
+     */
+    @Override
+    protected Collection<Move> calculateCastles(final Collection<Move> opponentLegalMoves) {
+        final int[] kingsideTiles = {61, 62}, queensideTiles = {57, 58, 59};
+        final int kingsideRookPosition = 63, queensideRookPosition = 56;
+
+        return CalculatePlayerCastles(this,
+                                      opponentLegalMoves,
+                                      kingsideTiles,
+                                      queensideTiles,
+                                      kingsideRookPosition,
+                                      queensideRookPosition);
     }
 }

@@ -3,6 +3,7 @@ package com.chess.engine.pieces;
 import com.chess.engine.Alliance;
 import com.chess.engine.board.Board;
 import com.chess.engine.board.move.*;
+import com.chess.engine.board.move.misc.MajorMove;
 import com.chess.engine.board.tile.Tile;
 import com.google.common.collect.ImmutableList;
 

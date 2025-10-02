@@ -23,21 +23,21 @@ public abstract class Player {
     //********************************************************
     /**
      * Constructor for a player.
-     * @param board              where the game takes place
-     * @param playerLegalMoves   the current player's legal moves
-     * @param opponentLegalMoves the opponent's legal moves
+     * @param board             where the game takes place
+     * @param firstLegalMoves   the first collection of legal moves
+     * @param secondLegalMoves  the second collection of legal moves
      */
     public Player(final Board board,
-                  final Collection<Move> playerLegalMoves,
-                  final Collection<Move> opponentLegalMoves) {
+                  final Collection<Move> firstLegalMoves,
+                  final Collection<Move> secondLegalMoves) {
         this.board = board;
         this.playerKing = establishKing();
-        this.playerLegalMoves = playerLegalMoves;
-        this.inCheck = !CalculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentLegalMoves).isEmpty();
+        this.playerLegalMoves = firstLegalMoves;
+        this.inCheck = !CalculateAttacksOnTile(this.playerKing.getPiecePosition(), secondLegalMoves).isEmpty();
     }
 
-    private static Collection<Move> CalculateAttacksOnTile(final int piecePosition,
-                                                           final Collection<Move> moves) {
+    protected static Collection<Move> CalculateAttacksOnTile(final int piecePosition,
+                                                             final Collection<Move> moves) {
         final List<Move> attackMoves = new ArrayList<>();
         for (final Move move : moves) {
             if (piecePosition == move.getTargetPosition()) {
@@ -50,6 +50,27 @@ public abstract class Player {
     //********************************************************
     //**********************Main Methods**********************
     //********************************************************
+    /**
+     * @return a list of the player's active pieces
+     */
+    public abstract Collection<Piece> getActivePieces();
+
+    /**
+     * @return White/Black
+     */
+    public abstract Alliance getPlayerAlliance();
+
+    /**
+     * @return the player's opponent
+     */
+    public abstract Player getOpponent();
+
+    /**
+     * @param opponentLegalMoves the opponent's legal moves
+     * @return a list of legal castles
+     */
+    protected abstract Collection<Move> calculateCastles(final Collection<Move> opponentLegalMoves);
+
     /**
      * Ensures that the player has one King for the game.
      * @return a King that the player should always have
@@ -71,18 +92,21 @@ public abstract class Player {
     public boolean isMoveLegal(final Move move) {
         return this.playerLegalMoves.contains(move);
     }
+
     /**
      * @return whether the King is in check
      */
     public boolean isInCheck() {
         return this.inCheck;
     }
+
     /**
      * @return whether the King is in a checkmate
      */
     public boolean isInCheckmate() {
         return this.inCheck && !hasEscapeMoves();
     }
+
     /**
      * @return whether the King is in a stalemate
      */
@@ -94,7 +118,7 @@ public abstract class Player {
      * @return whether the King can escape from being in check
      */
     protected boolean hasEscapeMoves() {
-        for (final Move move : playerLegalMoves) {
+        for (final Move move : this.playerLegalMoves) {
             final MoveTransition moveTransition = makeMove(move);
             if (moveTransition.getMoveStatus().isDone()) {
                 return true;
@@ -103,6 +127,7 @@ public abstract class Player {
 
         return false;
     }
+
     // TODO: implement castle
     /**
      * @return whether a castle has been performed
@@ -137,29 +162,21 @@ public abstract class Player {
     /**
      * @return the player's King
      */
-    private King getPlayerKing() {
+    public King getPlayerKing() {
         return this.playerKing;
     }
 
     /**
      * @return the player's legal moves
      */
-    private Collection<Move> getLegalMoves() {
+    public Collection<Move> getLegalMoves() {
         return this.playerLegalMoves;
     }
 
     /**
-     * @return a list of the player's active pieces
+     * @return the board the player is playing on
      */
-    public abstract Collection<Piece> getActivePieces();
-
-    /**
-     * @return White/Black
-     */
-    public abstract Alliance getPlayerAlliance();
-
-    /**
-     * @return the player's opponent
-     */
-    public abstract Player getOpponent();
+    public Board getBoard() {
+        return this.board;
+    }
 }
