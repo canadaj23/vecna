@@ -8,6 +8,7 @@ import com.chess.engine.board.move.Move;
 import com.chess.engine.pieces.King;
 import com.chess.engine.pieces.Piece;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +17,7 @@ import java.util.List;
 public abstract class Player {
     protected final Board board;
     protected final King playerKing;
-    protected final Collection<Move> playerLegalMoves;
+    protected final Collection<Move> legalMoves;
     private final boolean inCheck;
     //********************************************************
     //**********************Constructor***********************
@@ -24,16 +25,17 @@ public abstract class Player {
     /**
      * Constructor for a player.
      * @param board             where the game takes place
-     * @param firstLegalMoves   the first collection of legal moves
-     * @param secondLegalMoves  the second collection of legal moves
+     * @param legalMoves   the first collection of legal moves
+     * @param opponentMoves  the second collection of legal moves
      */
     public Player(final Board board,
-                  final Collection<Move> firstLegalMoves,
-                  final Collection<Move> secondLegalMoves) {
+                  final Collection<Move> legalMoves,
+                  final Collection<Move> opponentMoves) {
         this.board = board;
         this.playerKing = establishKing();
-        this.playerLegalMoves = firstLegalMoves;
-        this.inCheck = !CalculateAttacksOnTile(this.playerKing.getPiecePosition(), secondLegalMoves).isEmpty();
+        this.legalMoves = ImmutableList.copyOf(Iterables.concat(legalMoves, calculateCastles(legalMoves,
+                                                                                             opponentMoves)));
+        this.inCheck = !CalculateAttacksOnTile(this.playerKing.getPiecePosition(), opponentMoves).isEmpty();
     }
 
     protected static Collection<Move> CalculateAttacksOnTile(final int piecePosition,
@@ -69,7 +71,8 @@ public abstract class Player {
      * @param opponentLegalMoves the opponent's legal moves
      * @return a list of legal castles
      */
-    protected abstract Collection<Move> calculateCastles(final Collection<Move> opponentLegalMoves);
+    protected abstract Collection<Move> calculateCastles(final Collection<Move> playerLegalMoves,
+                                                         final Collection<Move> opponentLegalMoves);
 
     /**
      * Ensures that the player has one King for the game.
@@ -90,7 +93,7 @@ public abstract class Player {
      * @return whether the move is legal
      */
     public boolean isMoveLegal(final Move move) {
-        return this.playerLegalMoves.contains(move);
+        return this.legalMoves.contains(move);
     }
 
     /**
@@ -118,7 +121,7 @@ public abstract class Player {
      * @return whether the King can escape from being in check
      */
     protected boolean hasEscapeMoves() {
-        for (final Move move : this.playerLegalMoves) {
+        for (final Move move : this.legalMoves) {
             final MoveTransition moveTransition = makeMove(move);
             if (moveTransition.getMoveStatus().isDone()) {
                 return true;
@@ -170,7 +173,7 @@ public abstract class Player {
      * @return the player's legal moves
      */
     public Collection<Move> getLegalMoves() {
-        return this.playerLegalMoves;
+        return this.legalMoves;
     }
 
     /**

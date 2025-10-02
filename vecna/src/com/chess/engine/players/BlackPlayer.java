@@ -58,15 +58,10 @@ public class BlackPlayer extends Player {
      * @return a list of legal castles
      */
     @Override
-    protected Collection<Move> calculateCastles(final Collection<Move> opponentLegalMoves) {
-        final int[] kingsideTiles = {5, 6}, queensideTiles = {1, 2, 3};
-        final int kingsideRookPosition = 7, queensideRookPosition = 0;
-
+    protected Collection<Move> calculateCastles(final Collection<Move> playerLegalMoves,
+                                                final Collection<Move> opponentLegalMoves) {
         return CalculatePlayerCastles(this,
-                                      opponentLegalMoves,
-                                      kingsideTiles,
-                                      queensideTiles,
-                                      kingsideRookPosition,
-                                      queensideRookPosition);
+                                      playerLegalMoves,
+                                      opponentLegalMoves);
     }
 }

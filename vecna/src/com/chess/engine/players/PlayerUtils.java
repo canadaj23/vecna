@@ -2,7 +2,11 @@ package com.chess.engine.players;
 
 import com.chess.engine.board.Board;
 import com.chess.engine.board.move.Move;
+import com.chess.engine.board.move.castle.KingsideCastleMove;
+import com.chess.engine.board.move.castle.QueensideCastleMove;
 import com.chess.engine.board.tile.Tile;
+import com.chess.engine.pieces.King;
+import com.chess.engine.pieces.Rook;
 import com.google.common.collect.ImmutableList;
 
 import java.util.ArrayList;
@@ -14,32 +18,47 @@ import java.util.List;
  */
 public class PlayerUtils {
     public static Collection<Move> CalculatePlayerCastles(final Player player,
-                                                          final Collection<Move> opponentLegalMoves,
-                                                          final int[] kingsideTiles,
-                                                          final int[] queensideTiles,
-                                                          final int kingsideRookPosition,
-                                                          final int queensideRookPosition) {
+                                                          final Collection<Move> playerLegalMoves,
+                                                          final Collection<Move> opponentLegalMoves) {
         final List<Move> castles = new ArrayList<>();
-
-        if (player.getPlayerKing().isFirstMove() && !player.isInCheck()) {
-            final Board board = player.getBoard();
+        final Board board = player.getBoard();
+        final King playerKing = player.getPlayerKing();
+        final int playerKingPosition = playerKing.getPiecePosition();
+        // Determine whether the King can legally move on its first turn
+        if (playerKing.isFirstMove() && !player.isInCheck()) {
             // Kingside castle
-            if (KingsidePossible(board, kingsideTiles[0], kingsideTiles[1])) {
-                final Tile rookTile = board.getTile(kingsideRookPosition);
+            if (KingsidePossible(board, playerKingPosition + 1, playerKingPosition + 2)) {
+                final Tile rookTile = board.getTile(playerKingPosition + 3);
                 if (IsRookFirstMove(rookTile)) {
-                    if (CanOpponentAttackDuringKingsideCastle(kingsideTiles[0], kingsideTiles[1], opponentLegalMoves)) {
-                        // TODO: add a castle move
-                        castles.add(null);
+                    if (NoAttacksDuringKingsideCastle(playerKingPosition + 1,
+                                                              playerKingPosition + 2,
+                                                              opponentLegalMoves)) {
+                        // Kingside castling is possible
+                        castles.add(new KingsideCastleMove(board,
+                                                           playerKing,
+                                                           playerKingPosition + 2,
+                                                           (Rook) rookTile.getPiece(),
+                                                           playerKingPosition + 1));
                     }
                 }
             }
             // Queenside castle
-            if (QueensidePossible(board, queensideTiles[0], queensideTiles[1], queensideTiles[2])) {
-                final Tile rookTile = player.getBoard().getTile(queensideRookPosition);
+            if (QueensidePossible(board,
+                                  playerKingPosition - 1,
+                                  playerKingPosition - 2,
+                                  playerKingPosition - 3)) {
+                final Tile rookTile = board.getTile(player.getPlayerKing().getPiecePosition() - 4);
                 if (IsRookFirstMove(rookTile)) {
-                    if (CanOpponentAttackDuringQueensideCastle(queensideTiles[0], queensideTiles[1], queensideTiles[2], opponentLegalMoves)) {
-                        // TODO: add a castle move
-                        castles.add(null);
+                    if (NoAttacksDuringQueensideCastle(playerKingPosition - 1,
+                                                               playerKingPosition - 2,
+                                                               playerKingPosition - 3,
+                                                               opponentLegalMoves)) {
+                        // Queenside castling is possible
+                        castles.add(new QueensideCastleMove(board,
+                                                            playerKing,
+                                                            playerKingPosition - 2,
+                                                            (Rook) rookTile.getPiece(),
+                                                            playerKingPosition - 1));
                     }
                 }
             }
@@ -90,9 +109,9 @@ public class PlayerUtils {
     /**
      * @return whether the opponent can attack when the player wants to castle kingside
      */
-    private static boolean CanOpponentAttackDuringKingsideCastle(final int firstPosition,
-                                                                 final int secondPosition,
-                                                                 final Collection<Move> opponentLegalMoves) {
+    private static boolean NoAttacksDuringKingsideCastle(final int firstPosition,
+                                                         final int secondPosition,
+                                                         final Collection<Move> opponentLegalMoves) {
         return Player.CalculateAttacksOnTile(firstPosition, opponentLegalMoves).isEmpty() &&
                Player.CalculateAttacksOnTile(secondPosition, opponentLegalMoves).isEmpty();
     }
@@ -100,10 +119,10 @@ public class PlayerUtils {
     /**
      * @return whether the opponent can attack when the player wants to castle queenside
      */
-    private static boolean CanOpponentAttackDuringQueensideCastle(final int firstPosition,
-                                                                  final int secondPosition,
-                                                                  final int thirdPosition,
-                                                                  final Collection<Move> opponentLegalMoves) {
+    private static boolean NoAttacksDuringQueensideCastle(final int firstPosition,
+                                                          final int secondPosition,
+                                                          final int thirdPosition,
+                                                          final Collection<Move> opponentLegalMoves) {
         return Player.CalculateAttacksOnTile(firstPosition, opponentLegalMoves).isEmpty() &&
                Player.CalculateAttacksOnTile(secondPosition, opponentLegalMoves).isEmpty() &&
                Player.CalculateAttacksOnTile(thirdPosition, opponentLegalMoves).isEmpty();

@@ -58,15 +58,10 @@ public class WhitePlayer extends Player {
      * @return a list of legal castles
      */
     @Override
-    protected Collection<Move> calculateCastles(final Collection<Move> opponentLegalMoves) {
-        final int[] kingsideTiles = {61, 62}, queensideTiles = {57, 58, 59};
-        final int kingsideRookPosition = 63, queensideRookPosition = 56;
-
+    protected Collection<Move> calculateCastles(final Collection<Move> playerLegalMoves,
+                                                final Collection<Move> opponentLegalMoves) {
         return CalculatePlayerCastles(this,
-                                      opponentLegalMoves,
-                                      kingsideTiles,
-                                      queensideTiles,
-                                      kingsideRookPosition,
-                                      queensideRookPosition);
+                                      playerLegalMoves,
+                                      opponentLegalMoves);
     }
 }
