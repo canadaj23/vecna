@@ -45,6 +45,14 @@ public enum Alliance {
         public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
             return whitePlayer;
         }
+
+        /**
+         * @return the String representation of the White alliance
+         */
+        @Override
+        public String toString() {
+            return "White";
+        }
     },
     //********************************************************
     //********************Black-attuned***********************
@@ -82,6 +90,14 @@ public enum Alliance {
         @Override
         public Player choosePlayer(final WhitePlayer whitePlayer, final BlackPlayer blackPlayer) {
             return blackPlayer;
+        }
+
+        /**
+         * @return the String representation of the White alliance
+         */
+        @Override
+        public String toString() {
+            return "Black";
         }
     };
     //********************************************************

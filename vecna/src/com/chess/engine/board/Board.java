@@ -35,7 +35,7 @@ public class Board {
      */
     private Board(final Builder builder) {
         // Populate the chess board with all necessary occupied and empty tiles
-        this.gameBoard = createGameBoard(builder);
+        this.gameBoard = CreateGameBoard(builder);
         // Determine White and Black's active pieces
         this.whitePieces = BoardUtils.CalculateActivePieces(this.gameBoard, WHITE);
         this.blackPieces = BoardUtils.CalculateActivePieces(this.gameBoard, BLACK);
@@ -55,7 +55,7 @@ public class Board {
      * @param builder what will be referenced for details about the chess board
      * @return a list of all the tiles (both occupied and empty) on the chess board
      */
-    private static List<Tile> createGameBoard(final Builder builder) {
+    private static List<Tile> CreateGameBoard(final Builder builder) {
         final Tile[] tiles = new Tile[BoardUtils.NUM_TILES];
         for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             tiles[i] = Tile.CreateTile(i, builder.boardConfig.get(i));

@@ -75,7 +75,7 @@ public class BoardUtils {
      */
     static void SetInitialPieces(final Builder builder) {
         // Populate the board with Black's initial pieces
-        setBlackInitialPieces(builder);
+        SetBlackInitialPieces(builder);
         // Populate the board with White's initial pieces
         setWhiteInitialPieces(builder);
     }
@@ -84,12 +84,12 @@ public class BoardUtils {
      * Sets all of Black's initial pieces on the board
      * @param builder what places the pieces on the board
      */
-    private static void setBlackInitialPieces(final Builder builder) {
-        int[] mainBlackPieces = { 0, 1, 2, 3, 4, 5, 6, 7 };
-        SetInitialMainPieces(builder, BLACK, mainBlackPieces);
+    private static void SetBlackInitialPieces(final Builder builder) {
+        final int mainIndex = 0;
+        SetInitialMainPieces(builder, BLACK, mainIndex);
 
-        int[] blackPawns = { 8, 9, 10, 11, 12, 13, 14, 15 };
-        SetInitialPawns(builder, BLACK, blackPawns);
+        final int pawnIndex = 8;
+        SetInitialPawns(builder, BLACK, pawnIndex);
     }
 
     /**
@@ -97,38 +97,38 @@ public class BoardUtils {
      * @param builder what places the pieces on the board
      */
     private static void setWhiteInitialPieces(final Builder builder) {
-        int[] whitePawns = { 48, 49, 50, 51, 52, 53, 54, 55 };
-        SetInitialPawns(builder, WHITE, whitePawns);
+        final int mainIndex = 56;
+        SetInitialMainPieces(builder, WHITE, mainIndex);
 
-        int[] mainWhitePieces = { 56, 57, 58, 59, 60, 61, 62, 63 };
-        SetInitialMainPieces(builder, WHITE, mainWhitePieces);
+        final int pawnIndex = 48;
+        SetInitialPawns(builder, WHITE, pawnIndex);
     }
 
     /**
      * Sets all the pieces to their initial positions
      * @param builder    what places the pieces on the board
      * @param alliance   White/Black
-     * @param mainPieces all pieces excluding pawns
+     * @param mainIndex  the starting index for all main pieces excluding pawns
      */
-    private static void SetInitialMainPieces(final Builder builder, final Alliance alliance, final int[] mainPieces) {
-        builder.setPiece(new Rook(alliance, mainPieces[0]));
-        builder.setPiece(new Knight(alliance, mainPieces[1]));
-        builder.setPiece(new Bishop(alliance, mainPieces[2]));
-        builder.setPiece(new Queen(alliance, mainPieces[3]));
-        builder.setPiece(new King(alliance, mainPieces[4]));
-        builder.setPiece(new Bishop(alliance, mainPieces[5]));
-        builder.setPiece(new Knight(alliance, mainPieces[6]));
-        builder.setPiece(new Rook(alliance, mainPieces[7]));
+    private static void SetInitialMainPieces(final Builder builder, final Alliance alliance, final int mainIndex) {
+        builder.setPiece(new Rook(alliance, mainIndex));
+        builder.setPiece(new Knight(alliance, mainIndex + 1));
+        builder.setPiece(new Bishop(alliance, mainIndex + 2));
+        builder.setPiece(new Queen(alliance, mainIndex + 3));
+        builder.setPiece(new King(alliance, mainIndex + 4));
+        builder.setPiece(new Bishop(alliance, mainIndex + 5));
+        builder.setPiece(new Knight(alliance, mainIndex + 6));
+        builder.setPiece(new Rook(alliance, mainIndex + 7));
     }
 
     /**
      * Sets all the pawns to their initial positions
-     * @param builder  what places the pieces on the board
-     * @param alliance White/Black
-     * @param pawns    all the pawns to be placed
+     * @param builder   what places the pieces on the board
+     * @param alliance  White/Black
+     * @param pawnIndex the starting index for all pawns
      */
-    private static void SetInitialPawns(final Builder builder, final Alliance alliance, final int[] pawns) {
-        for (int i = pawns[0]; i < pawns[7] + 1; i++) {
+    private static void SetInitialPawns(final Builder builder, final Alliance alliance, final int pawnIndex) {
+        for (int i = pawnIndex; i < pawnIndex + 8; i++) {
             builder.setPiece(new Pawn(alliance, i));
         }
     }
