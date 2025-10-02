@@ -10,27 +10,13 @@ public enum MoveStatus {
             return true;
         }
     },
-    ILLEGAL_MOVE {
-        /**
-         * @return whether the move is done
-         */
-        @Override
-        public boolean isDone() {
-            return false;
-        }
-    },
-    IN_CHECK {
-        /**
-         * @return whether the move is done
-         */
-        @Override
-        public boolean isDone() {
-            return false;
-        }
-    };
+    ILLEGAL_MOVE {},
+    IN_CHECK {};
 
     /**
      * @return whether the move is done
      */
-    public abstract boolean isDone();
+    public boolean isDone() {
+        return false;
+    }
 }
